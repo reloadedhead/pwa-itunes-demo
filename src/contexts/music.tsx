@@ -7,12 +7,14 @@ interface MusicContext {
   topAlbums: Album[];
   loading: boolean;
   getTopAlbums: (limit: number) => Promise<void>
+  toggleLoveAlbum: (albumId: string) => void;
 }
 
 const initialState: MusicContext = {
   topAlbums: [],
   loading: false,
   getTopAlbums: () => new Promise(() => {}),
+  toggleLoveAlbum: () => {},
 };
 
 const MusicContext = createContext(initialState);
@@ -21,6 +23,15 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
   const [topAlbums, setTopAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(false);
   const { fetchAlbums } = useApi();
+
+  const toggleLoveAlbum = (albumId: string) => {
+    const albumIndex = topAlbums.findIndex(a => a.id === albumId);
+    if (albumIndex > -1) {
+      const albums = [...topAlbums];
+      albums[albumIndex].loved = !albums[albumIndex].loved;
+      setTopAlbums(albums);
+    };
+  };
 
   const getTopAlbums = async (limit: number) => {
     try {
@@ -34,7 +45,7 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <MusicContext.Provider value={{ topAlbums, loading, getTopAlbums }}>
+    <MusicContext.Provider value={{ topAlbums, loading, getTopAlbums, toggleLoveAlbum }}>
       {children}
     </MusicContext.Provider>
   )

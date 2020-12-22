@@ -11,6 +11,7 @@ export type Category = {
 
 export type Album = {
   id: string;
+  loved: boolean;
   title: string;
   artworkSource: string;
   price: {

@@ -20,6 +20,7 @@ export const modelAlbumsResponse = (response: unknown): Album[] => {
     price: {
       amount: parseFloat(item['im:price']['attributes']['amount']),
       currency: item['im:price']['attributes']['currency'],
-    }
+    },
+    loved: false,
   }));
 };

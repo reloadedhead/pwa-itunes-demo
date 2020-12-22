@@ -1,7 +1,11 @@
+/* eslint-disable react/display-name */
 import { Card, CardActions, CardContent, CardMedia, Chip, IconButton, makeStyles, Tooltip, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { memo } from 'react';
 import { Album } from '../../types';
 import LaunchIcon from '@material-ui/icons/Launch';
+import { useMusic } from '../../contexts/music';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -28,8 +32,13 @@ interface AlbumCard {
   album: Album;
 }
 
-const AlbumCard = ({ album }: AlbumCard) => {
+const AlbumCard = memo(({ album }: AlbumCard) => {
   const classes = useStyles();
+  const { toggleLoveAlbum } = useMusic();
+
+  const handleLoveAlbum = () => {
+    toggleLoveAlbum(album.id);
+  }
 
   const handleOpenInAppleMusic = () => {
     window.open(album.appleMusicLink);
@@ -48,6 +57,11 @@ const AlbumCard = ({ album }: AlbumCard) => {
       <CardActions>
         <Chip label={`${album.price.currency} ${album.price.amount}`} />
         <div className={classes.grow} />
+        <Tooltip title="Love">
+          <IconButton onClick={handleLoveAlbum}>
+            {album.loved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Open on Apple Music">
           <IconButton onClick={handleOpenInAppleMusic}>
             <LaunchIcon />
@@ -56,6 +70,7 @@ const AlbumCard = ({ album }: AlbumCard) => {
       </CardActions>
     </Card>
   );
-};
+}, (prevProps, nextProps) => 
+  prevProps.album.id === nextProps.album.id || prevProps.album.loved === nextProps.album.loved);
 
 export default AlbumCard;
