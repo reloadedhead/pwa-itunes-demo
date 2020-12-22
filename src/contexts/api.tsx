@@ -14,7 +14,7 @@ const ApiContext = createContext(initialState);
 export const ApiProvider = ({ children }: { children: ReactNode }) => {
   
   const fetchAlbums = (limit = 100) => {
-    return axios.get(`https://itunes.apple.com/ar/rss/topalbums/limit=${limit}/json`);
+    return axios.get(`https://itunes.apple.com/us/rss/topalbums/limit=${limit}/json`);
   }
 
   return (

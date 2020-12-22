@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import Router from './router';
+import { ApiProvider } from './contexts/api';
+import { MusicProvider } from './contexts/music';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <ApiProvider>
+      <MusicProvider>
+        <Router />
+      </MusicProvider>
+    </ApiProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
