@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import Router from './router';
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>Hello World!</div>
+    <Router />
   </React.StrictMode>,
   document.getElementById('root')
 );
