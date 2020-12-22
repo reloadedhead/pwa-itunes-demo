@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import Router from './router';
 import { ApiProvider } from './contexts/api';
 import { MusicProvider } from './contexts/music';
+import { useMediaQuery, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
+const WrappedApp = () => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          primary: {
+            main: '#814CE6',
+          },
+          type: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode]
+  );
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <ApiProvider>
+        <MusicProvider>
+          <Router />
+        </MusicProvider>
+      </ApiProvider>
+    </MuiThemeProvider>
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApiProvider>
-      <MusicProvider>
-        <Router />
-      </MusicProvider>
-    </ApiProvider>
+    <WrappedApp />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -55,7 +55,7 @@ const AlbumCard = memo(({ album }: AlbumCard) => {
       </CardContent>
       <div className={classes.grow} />
       <CardActions>
-        <Chip label={`${album.price.currency} ${album.price.amount}`} />
+        <Chip color="secondary" label={`${album.price.currency} ${album.price.amount}`} />
         <div className={classes.grow} />
         <Tooltip title="Love">
           <IconButton onClick={handleLoveAlbum}>
